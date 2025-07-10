@@ -1,8 +1,7 @@
 import newsapi
+import api_key
 
-API_KEY = "d84665741d3d4d80a69ede4ba7fb5fa2"
-
-client = newsapi.NewsApiClient(api_key=API_KEY)
+client = newsapi.NewsApiClient(api_key=api_key.API_KEY)
 
 languages = "ardeenesfrheitnlnoptrusvudzh"
 countries = "aearataubebgbrcachcncocuczdeegfrgbgrhkhuidieilinitjpkrltlvmamxmyngnlnonzphplptrorsrusasesgsiskthtrtwuausveza"
