@@ -1,3 +1,6 @@
 node_modules
 node_modules
 api_key.py
+summarizations.json
+current_articles.json
+summarizations.json

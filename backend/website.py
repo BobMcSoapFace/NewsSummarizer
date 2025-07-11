@@ -4,7 +4,7 @@ import news
 import json
 import newspaper
 import schedule
-from threading import Thread
+from threading import Thread, Timer
 from transformers import BartTokenizer, BartForConditionalGeneration
 
 #summarizer AI
@@ -62,7 +62,7 @@ def dataPage():
 def getSummary():
     return find_article_summary(request.get_json()["url"])
 
-def reload():
+def reload(last_day):
     news.get_recent_articles()
     try:
         last_day[0] = datetime.now()
@@ -74,6 +74,6 @@ if __name__ == "__main__":
     articles = news.get_recent_articles(last_day)
     initial_thread = Thread(target=load_urls, args = (list(articles["articles"]),))
     initial_thread.start()
-    schedule.every().day.at("00:00").do(news.get_recent_articles)
+    timer = Timer(60*60*24, reload, last_day)
     app.run(debug=True, port=8001)
     

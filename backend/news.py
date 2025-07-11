@@ -1,12 +1,13 @@
 import newsapi
 import datetime
 import json
+import os
 from api_key import API_KEY
 from website import load_urls
 from threading import Thread
 
 current_articles_file_name = "current_articles.json"
-client = newsapi.NewsApiClient(api_key=API_KEY)
+client = newsapi.NewsApiClient(api_key=os.environ["NEWSAPI_KEY"])
 print("Running News API client")
 summarization_cache_file = "summarizations.json"
 
