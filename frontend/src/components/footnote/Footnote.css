@@ -6,11 +6,13 @@
     align-items: start;
     padding: 1rem;
     z-index: 2;
-    position: absolute;
+    position: relative;
     color: #000;
     background-color: #fff;
     align-self: end;
+    
     offset: 0px -60px;
+    
 }
 .title, .footnote-text {
     text-decoration:solid;
@@ -22,7 +24,7 @@
     font-size: 4vh;
 }
 .footnote-text {
-    font-size: 2.5vh;
+    font-size: 2vh;
     flex-grow: 1;
     text-align: left;
 }

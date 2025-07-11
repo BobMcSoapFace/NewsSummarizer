@@ -9,7 +9,7 @@ function Footnote({data={appName:"undefined", initTime:"undefined"}}){
             </div>
             <div class='separator'/>
             <div class='footnote-text'>
-                Data: {typeof(data)}, initTime: {data.initTime}
+                server start time: {data.initTime}
             </div>
         </div>
     );

@@ -1,0 +1,36 @@
+.article-header {
+    width: 70%;
+    text-align: left;
+    min-height: 6rem;
+    padding: 2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: center;
+    display: flex;
+    background-color: white;
+    border: 3px solid #dddddd;
+    color: black;
+    font-size: 2.5vh;
+    border-radius: 8px;
+    font-weight: bold;
+    flex-grow: 1;
+    margin: 1rem 0;
+}
+
+.article-title {
+    border-bottom: 1px solid #dddddd;
+    cursor: pointer;
+}
+
+.article-info {
+    font-size: 1.5vh;
+    text-align: left;
+}
+.summary-container {
+    border-top: 1px solid #dddddd;
+    width:100%;
+    min-height: 5rem;
+}
+.hidden {
+    display: none;
+}
