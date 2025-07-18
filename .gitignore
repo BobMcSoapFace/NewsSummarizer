@@ -4,3 +4,7 @@ api_key.py
 summarizations.json
 current_articles.json
 summarizations.json
+backend/__pycache__
+api_key.cpython-310.pyc
+backend/test.py
+backend/__pycache__/api_key.cpython-310.pyc

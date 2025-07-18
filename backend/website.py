@@ -3,7 +3,6 @@ import datetime
 import news
 import json
 import newspaper
-import schedule
 from threading import Thread, Timer
 from transformers import BartTokenizer, BartForConditionalGeneration
 
@@ -27,15 +26,24 @@ def generate_summary(text):
     return summary
 def get_article_summary(url):
     try:
+        with open(summarization_cache_file, 'r') as f:
+            summaries = json.load(f)
         article = newspaper.Article(url=url)
         article.download()
         article.parse()
-        return {
+        summary = {
             "title":article.title,
             "summary":generate_summary(article.text),
             "url":url,
             "content":article.text,
         }
+        if not url in summaries:
+            with open(summarization_cache_file, 'r') as f:
+                summaries = json.load(f)
+            summaries[url] = summary
+            with open(summarization_cache_file, 'w') as f:
+                json.dump(summaries, f)
+        return summary
     except:
         return "GENERATE ERROR"
 def find_article_summary(url):
@@ -55,8 +63,9 @@ init_time = datetime.datetime.now()
 def dataPage():
     return {
        "AppName":"NewsSummarizer", 
-       "DateTime":init_time,
-       "Articles":json.dumps(news.get_recent_articles(last_day))
+       "DateTime": init_time,
+       "Articles":json.dumps(news.get_recent_articles(last_day)),
+       "UpdateTime": last_day[0],
     }
 @app.route('/summarize', methods=["GET", "POST"])
 def getSummary():
@@ -72,8 +81,8 @@ def reload(last_day):
 if __name__ == "__main__":
     print("website launched")
     articles = news.get_recent_articles(last_day)
-    initial_thread = Thread(target=load_urls, args = (list(articles["articles"]),))
+    initial_thread = Thread(target=load_urls, args = (list(articles),))
     initial_thread.start()
     timer = Timer(60*60*24, reload, last_day)
-    app.run(debug=True, port=8001)
+    app.run(debug=True, host="localhost", port=60001, use_reloader=False)
     
