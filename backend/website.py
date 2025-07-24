@@ -9,7 +9,7 @@ from transformers import BartTokenizer, BartForConditionalGeneration
 #summarizer AI
 tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
 model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn')
-last_day = [datetime.date.today()]
+update_time = datetime.datetime.now()
 summarization_cache_file = "summarizations.json"
 
 def load_urls(articles):
@@ -29,7 +29,7 @@ def get_article_summary(url):
         with open(summarization_cache_file, 'r') as f:
             summaries = json.load(f)
         article = newspaper.Article(url=url)
-        article.download()
+        article.download()  
         article.parse()
         summary = {
             "title":article.title,
@@ -50,7 +50,12 @@ def find_article_summary(url):
     with open(summarization_cache_file, 'r') as f:
         summaries = json.load(f)
     if not url in summaries:
-        return get_article_summary(url=url)
+        return {
+            "title":"",
+            "summary":"not loaded yet. come back later",
+            "url":url,
+            "content":"",
+        }
     else:
         return summaries[url]
 #http output of data
@@ -64,25 +69,24 @@ def dataPage():
     return {
        "AppName":"NewsSummarizer", 
        "DateTime": init_time,
-       "Articles":json.dumps(news.get_recent_articles(last_day)),
-       "UpdateTime": last_day[0],
+       "Articles":json.dumps(news.get_recent_articles()),
+       "UpdateTime": update_time,
     }
 @app.route('/summarize', methods=["GET", "POST"])
 def getSummary():
     return find_article_summary(request.get_json()["url"])
 
-def reload(last_day):
-    news.get_recent_articles()
-    try:
-        last_day[0] = datetime.now()
-    except:
-        print("woopsies!")
+def reload():
+    Timer(24*60*60, reload).start()
+    print("reloading for " + str(datetime.datetime.now()))
+    update_time = datetime.datetime.now()
+    articles = news.get_recent_articles()
+    initial_thread = Thread(target=load_urls, args = (list(articles),))
+    initial_thread.start()
     
 if __name__ == "__main__":
     print("website launched")
-    articles = news.get_recent_articles(last_day)
-    initial_thread = Thread(target=load_urls, args = (list(articles),))
-    initial_thread.start()
-    timer = Timer(60*60*24, reload, last_day)
+    news.write_this_date()
+    reload()
     app.run(debug=True, host="localhost", port=60001, use_reloader=False)
     

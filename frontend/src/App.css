@@ -122,6 +122,7 @@ button {
   z-index: 3;
   border: 3px solid #dddddd;
   font-weight: bold;
+  overflow-y: auto;
 }
 .article-header-container {
   align-self: center;

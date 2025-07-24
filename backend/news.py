@@ -10,6 +10,7 @@ current_articles_file_name = "current_articles.json"
 client = newsapi.NewsApiClient(api_key=API_KEY)
 print("Running News API client")
 summarization_cache_file = "summarizations.json"
+date_file = "date.txt"
 
 
 languages = "ardeenesfrheitnlnoptrusvudzh"
@@ -18,6 +19,12 @@ categories = ["business","entertainment","general","health","science","sports","
 selected_sources = ["bloomberg", "cbs-news", "cnn", "espn", "msnbc", "nbc-news", "reuters", "the-wall-street-journal"]
 page_num = 8
 
+def get_recorded_date():
+    with open(date_file, "r") as f:
+        return f.read()
+def write_this_date():
+    with open(date_file, "w") as f:
+        f.write(str(datetime.date.today()))
 def get_articles(page = 1):
     return client.get_everything(
                 #sources = ",".join(selected_sources),
@@ -58,14 +65,13 @@ current_articles = get_articles(page=1)
 with open('current_articles.json', 'w') as f:
     json.dump(current_articles, f)
 
-def get_recent_articles(last_day=datetime.datetime.now() - datetime.timedelta(days=5)):
-    if(last_day[0].day != datetime.datetime.now().day):
-        last_day[0] = datetime.datetime.now()
+def get_recent_articles():
+    if(get_recorded_date() != str(datetime.date.today())):
+        write_this_date()
+        print("getting more recent articles")
         articles = get_articles(page=1)
         with open(current_articles_file_name, 'w') as f:
             json.dump(articles, f)
-        thread = Thread(target=load_urls, args = (list(articles),))
-        thread.start()
     with open(current_articles_file_name, 'r') as f:
         data = json.load(f)
     return data

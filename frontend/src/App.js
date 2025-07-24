@@ -83,6 +83,7 @@ function App() {
                     setFilteredSources([...filteredSources])
                 }}>{sourceName}</button><Separator mult={0.5}/></div>)
             })}
+            <p>Powered by Facebook's seq2seq BART AI Model. Articles reset at server initialization time, and may take a few hours to generate summaries.</p>
             </div>
           </div>
           <header className="App-header">
