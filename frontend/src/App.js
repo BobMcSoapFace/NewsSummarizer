@@ -23,12 +23,20 @@ function App() {
     const [sortState, setSortType] = useState(SORT_TYPES[0])
     
     //test
-    const [testText, setTestText] = useState("Button")
-    const [_mult, setMult] = useState(2)
 
     useEffect(
         () => {
-            fetch("/data").then((res) => {
+            fetch("http://news.popopanda.me:60001/data", {
+                method:"GET", 
+                mode:"cors",
+                headers: {
+                 "Content-Type": "application/json"
+                },
+                credentials: "include",
+            }
+            ).then((res) => {
+                console.log("fetching!!!!!");
+                console.log(res);
                 res.json().then((data) => {
                     setdata({
                         appName: data.AppName,
@@ -101,15 +109,6 @@ function App() {
                         key={article["url"]}/>
                 ))}
                 </div>
-                <Separator mult={_mult}/>
-                <button type="button" onClick={()=>{
-                    setMult(_mult+1);
-                    if(testText !== "Clicked!"){
-                        setTestText("Clicked!");
-                    } else {
-                        setTestText("Button");
-                    }
-                }}>{testText}</button>
                 <Separator/>
                 <Footnote data={data}/>
           </header>

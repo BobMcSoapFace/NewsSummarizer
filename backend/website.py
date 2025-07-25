@@ -1,10 +1,11 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 import datetime
 import news
 import json
 import newspaper
 from threading import Thread, Timer
 from transformers import BartTokenizer, BartForConditionalGeneration
+from flask_cors import CORS, cross_origin
 
 #summarizer AI
 tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
@@ -60,11 +61,12 @@ def find_article_summary(url):
         return summaries[url]
 #http output of data
 app = Flask(__name__)
+cors = CORS(app)
 
 init_time = datetime.datetime.now()
 
-
 @app.route('/data')
+@cross_origin()
 def dataPage():
     return {
        "AppName":"NewsSummarizer", 
@@ -73,9 +75,9 @@ def dataPage():
        "UpdateTime": update_time,
     }
 @app.route('/summarize', methods=["GET", "POST"])
+@cross_origin()
 def getSummary():
     return find_article_summary(request.get_json()["url"])
-
 def reload():
     Timer(24*60*60, reload).start()
     print("reloading for " + str(datetime.datetime.now()))

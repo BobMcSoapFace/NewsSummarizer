@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import "./ArticleHeader.css";
 import axios from 'axios';
 
-async function get(params) {
-    axios.post("/summarize")
-}
 export default function ArticleHeader({article}){
     let jsonArticle = JSON.parse(article);
      const [summary, setSummary] = useState("loading...");
@@ -15,7 +12,7 @@ export default function ArticleHeader({article}){
             <span class="article-title" onClick={()=>{
                 handleShow();
                 console.log("getting summary for " + jsonArticle["url"]);
-                axios.post("/summarize", { url: jsonArticle["url"] }).then((res)=>{setSummary(res.data["summary"])});
+                axios.post("http://news.popopanda.me:60001/summarize", { url: jsonArticle["url"] }).then((res)=>{setSummary(res.data["summary"])});
             }}>{jsonArticle["title"]}</span><br/>
             <span class="article-info">{jsonArticle["source"]["name"]}</span>
             <span class="article-info">Published - {jsonArticle["publishedAt"]}</span>

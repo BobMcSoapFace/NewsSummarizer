@@ -8,3 +8,15 @@ backend/__pycache__
 api_key.cpython-310.pyc
 backend/test.py
 backend/__pycache__/api_key.cpython-310.pyc
+frontend/build/asset-manifest.json
+frontend/build/index.html
+frontend/build/static/css/main.aa7f5695.css
+frontend/build/static/css/main.aa7f5695.css.map
+frontend/build/static/css/main.f5a51f57.css
+frontend/build/static/css/main.f5a51f57.css.map
+frontend/build/static/js/main.b58ddef7.js
+frontend/build/static/js/main.b58ddef7.js.LICENSE.txt
+frontend/build/static/js/main.b58ddef7.js.map
+frontend/build/static/js/main.e969c420.js
+frontend/build/static/js/main.e969c420.js.LICENSE.txt
+frontend/build/static/js/main.e969c420.js.map
