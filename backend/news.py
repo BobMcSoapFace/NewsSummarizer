@@ -65,8 +65,8 @@ current_articles = get_articles(page=1)
 with open('current_articles.json', 'w') as f:
     json.dump(current_articles, f)
 
-def get_recent_articles():
-    if(get_recorded_date() != str(datetime.date.today())):
+def get_recent_articles(just_get=False):
+    if(get_recorded_date() != str(datetime.date.today()) and not just_get):
         write_this_date()
         print("getting more recent articles")
         articles = get_articles(page=1)

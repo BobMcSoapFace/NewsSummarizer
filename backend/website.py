@@ -71,7 +71,7 @@ def dataPage():
     return {
        "AppName":"NewsSummarizer", 
        "DateTime": init_time,
-       "Articles":json.dumps(news.get_recent_articles()),
+       "Articles":json.dumps(news.get_recent_articles(True)),
        "UpdateTime": update_time,
     }
 @app.route('/summarize', methods=["GET", "POST"])

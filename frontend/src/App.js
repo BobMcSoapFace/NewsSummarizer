@@ -100,7 +100,6 @@ function App() {
               <Separator mult={4}/>
               <h3>{data.appName}</h3>
               <Separator mult={0.2}/>
-              <p>News updated as of <b>{data.updateTime}</b></p>
               <p><b>{articles.length}</b> results</p>
                 <div className="article-header-container">
                 {(filteredSources.length <= 0 ? articles : articles.filter(article => {return filteredSources.includes(article["source"]["name"])})).map(article => (
